@@ -11,7 +11,7 @@ Version: 0.1
 if ( is_admin() )
 	return;
 
-class kcMS_Dropdown_Menu {
+class kcMU_Dropdown_Menu {
 	public static function get_current_url() {
 		global $wp;
 		if ( get_option('permalink_structure') )
@@ -111,7 +111,7 @@ class kcMS_Dropdown_Menu {
 		}
 	}
 }
-add_action( 'init', array('kcMS_Dropdown_Menu', '_catch') );
+add_action( 'init', array('kcMU_Dropdown_Menu', '_catch') );
 
 
 class kcMS_Walker_Menu extends Walker {
