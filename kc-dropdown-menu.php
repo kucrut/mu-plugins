@@ -71,10 +71,12 @@ class kcMS_Dropdown_Menu {
 
 		$out  = '<form '.$f_attr.'>' . PHP_EOL;
 		$out .= '<select name="kcform[url]">' . PHP_EOL;
+		if ( $args['select_text'] )
+			$out .= '<option value="">'.$args['select_text'].'</option>' . PHP_EOL;
 		foreach( $menu_items as $_url => $title ) {
 			$url = rtrim($_url, '/');
 			$out .= '<option value="'.esc_attr( esc_url($url) ).'"';
-			if ( $current_url == $url )
+			if ( !$args['select_text'] && $current_url == $url )
 				$out .= ' selected="selected"';
 			$out .= '>'.$title.'</option>' . PHP_EOL;
 		}
