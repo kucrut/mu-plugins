@@ -12,6 +12,8 @@ if ( is_admin() )
 	return;
 
 class kcMU_Dropdown_Menu {
+	private static $did_js = false;
+
 	public static function get_menu( $menu_id, $args = array() ) {
 		$menu = wp_get_nav_menu_object( $menu_id );
 		if ( !$menu )
@@ -27,7 +29,7 @@ class kcMU_Dropdown_Menu {
 			'echo'        => true,
 			'submit_text' => __('Submit'),
 			'select_text' => '&mdash;&nbsp;'.__('Navigate', 'THEME_NAME').'&nbsp;&mdash;',
-			'js'          => false,
+			'js'          => true,
 			'menu_class'  => '',
 			'menu_id'     => ''
 		) );
@@ -36,7 +38,7 @@ class kcMU_Dropdown_Menu {
 		$walk->pad = $args['pad'];
 		$menu_items = $walk->walk( $items, $args['depth'], $args );
 
-		$class = 'kcform';
+		$class = 'kcform kcmenu';
 		if ( $args['menu_class'] )
 			$class .= " {$args['menu_class']}";
 
@@ -51,14 +53,37 @@ class kcMU_Dropdown_Menu {
 		foreach( $menu_items as $_id => $_title )
 			$out .= '<option value="'.$_id.'">'.$_title.'</option>' . PHP_EOL;
 		$out .= '</select>' . PHP_EOL;
-		$out .= '<button type="submit" name="kcform[action]" value="menu">'.$args['submit_text'].'</button>' . PHP_EOL;
+		$out .= '<input type="hidden" value="menu" name="kcform[action]" />' . PHP_EOL;
+		$out .= '<button type="submit">'.$args['submit_text'].'</button>' . PHP_EOL;
 		$out .= '</form>' . PHP_EOL;
+
+		if ( $args['js'] && !self::$did_js ) {
+			self::$did_js = true;
+			wp_enqueue_script( 'jquery' );
+			add_action( 'wp_print_footer_scripts', array(__CLASS__, 'print_js'), 999 );
+		}
 
 		if ( $args['echo'] )
 			echo $out;
 		else
 			return $out;
 	}
+
+
+	public static function print_js() { ?>
+<script>
+	jQuery(document).ready(function($) {
+		$('form.kcmenu').submit(function(e) {
+			if ( !$(this).children('select').val() )
+				e.preventDefault();
+		})
+			.children('select').change(function() {
+				if ( this.value )
+					this.form.submit();
+			});
+	});
+</script>
+	<?php }
 
 
 	public static function _catch() {
