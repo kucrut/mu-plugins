@@ -26,7 +26,7 @@ class kcMU_Dropdown_Menu {
 			'pad'         => '&mdash;',
 			'echo'        => true,
 			'submit_text' => __('Submit'),
-			'select_text' => '',
+			'select_text' => '&mdash;&nbsp;'.__('Navigate', 'THEME_NAME').'&nbsp;&mdash;',
 			'js'          => false,
 			'menu_class'  => '',
 			'menu_id'     => ''
@@ -46,7 +46,7 @@ class kcMU_Dropdown_Menu {
 
 		$out  = '<form '.$f_attr.'>' . PHP_EOL;
 		$out .= '<select name="kcform[menu-id]">' . PHP_EOL;
-		if ( $args['select_text'] )
+		if ( !empty($args['select_text']) )
 			$out .= '<option value="">'.$args['select_text'].'</option>' . PHP_EOL;
 		foreach( $menu_items as $_id => $_title )
 			$out .= '<option value="'.$_id.'">'.$_title.'</option>' . PHP_EOL;
