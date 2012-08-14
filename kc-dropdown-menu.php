@@ -11,7 +11,7 @@ Version: 0.1
 if ( is_admin() )
 	return;
 
-class kcMU_Dropdown_Menu {
+class kcEssentials_Dropdown_Menu {
 	private static $did_js = false;
 
 	public static function get_menu( $menu_id, $args = array() ) {
@@ -34,7 +34,7 @@ class kcMU_Dropdown_Menu {
 			'menu_id'     => ''
 		) );
 
-		$walk = new kcMS_Walker_Menu;
+		$walk = new kcWalker_Menu;
 		$walk->pad = $args['pad'];
 		$menu_items = $walk->walk( $items, $args['depth'], $args );
 
@@ -101,10 +101,14 @@ class kcMU_Dropdown_Menu {
 		}
 	}
 }
-add_action( 'init', array('kcMU_Dropdown_Menu', '_catch') );
+add_action( 'init', array('kcMU_Dropdown_Menu', '_catch'), 0 );
+
+function kc_dropdown_menu( $menu_id, $args = array() ) {
+	kcEssentials_Dropdown_Menu::get_menu( $menu_id, $args );
+}
 
 
-class kcMS_Walker_Menu extends Walker {
+class kcWalker_Menu extends Walker {
 	var $tree_type = array( 'post_type', 'taxonomy', 'custom' );
 	var $db_fields = array( 'parent' => 'menu_item_parent', 'id' => 'db_id' );
 	var $pad = '';
