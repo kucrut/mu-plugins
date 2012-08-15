@@ -101,7 +101,7 @@ class kcEssentials_Dropdown_Menu {
 		}
 	}
 }
-add_action( 'init', array('kcEssentials_Dropdown_Menu', '_catch'), 0 );
+add_action( 'init', array('kcEssentials_Dropdown_Menu', '_catch'), 101 );
 
 function kc_dropdown_menu( $menu_id, $args = array() ) {
 	return kcEssentials_Dropdown_Menu::get_menu( $menu_id, $args );
